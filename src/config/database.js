@@ -1,9 +1,9 @@
 module.exports = {
     dialect: 'postgres',
-    host: 'ec2-54-175-117-212.compute-1.amazonaws.com',
-    username: 'mvrsobbbkznqbu',
-    password: 'b96087a3fd27a65d771ceb407068edc9400c7ede9badf52de50bac1b08cdbbe9',
-    database: 'd3lpblg5keuuj2',
+    host: 'ec2-35-169-254-43.compute-1.amazonaws.com',
+    username: 'jvsdilippyftyo',
+    password: '843ff676a1497ea76f022163bfb30e867e3dfdc803070b5536a4787a7211ccef',
+    database: 'de79ivf01atm6q',
     define: {
         timestamps: true,
         underscored: true,
