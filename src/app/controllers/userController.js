@@ -12,7 +12,7 @@ module.exports = {
       try {
          const { first_name, last_name, email, password } = req.body;
 
-         const verifyEmail = await User.findOne({ where: { email: email } });
+         const verifyEmail = await User.findOne({ where: { email } });
 
          if (verifyEmail) {
             return res.status(400).json({ menssage: 'User already exists' });
