@@ -1,0 +1,10 @@
+{
+   "host": "smtp.gmail.com",
+   "port": "465",
+   "secure": true,
+   "auth": {
+      "type": "login",
+      "user": "my.project.system@gmail.com",
+      "pass": "mpsystem4000"
+   }
+}
