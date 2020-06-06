@@ -1,5 +1,7 @@
 const express = require('express');
 
+const { celebrate, Joi, Segments } = require('celebrate');
+
 const userController = require('./app/controllers/userController');
 const loginController = require('./app/controllers/loginController');
 const projectController = require('./app/controllers/projectController');
@@ -8,24 +10,127 @@ const authMiddleware = require('./app/middlewares/auth');
 
 const Route = express.Router();
 
+//Initial rote
 Route.get('/', (req, res) => {return res.status(200).json({ ok: true })});
 
-Route.post('/register', userController.create);
+//User rotes
+Route.post('/register', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    first_name: Joi.string().required(),
+    last_name: Joi.string(),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+}), userController.create);
 
-Route.post('/login', loginController.login);
+Route.post('/login', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+}), loginController.login);
 
-Route.post('/forgotpassword', userController.forgotPassword);
-Route.post('/resetpassword', userController.resetPassword);
+Route.post('/forgotpassword', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required(),
+  }),
+}), userController.forgotPassword);
 
+Route.post('/resetpassword', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required(),
+    token: Joi.string().required(),
+    new_password: Joi.string().required(),
+  }),
+}), userController.resetPassword);
+
+
+//Projects routes
 Route.get('/projects', authMiddleware, projectController.view);
-Route.post('/projects', authMiddleware, projectController.create);
-Route.patch('/projects/:projectid', authMiddleware, projectController.patch);
-Route.delete('/projects/:projectid', authMiddleware, projectController.dalete);
 
-Route.get('/tasks/:projectid', authMiddleware, taskController.view);
-Route.post('/tasks/:projectid', authMiddleware, taskController.create);
-Route.patch('/tasks/:taskid', authMiddleware, taskController.patch);
-Route.delete('/tasks/:taskid/:projectid', authMiddleware, taskController.delete);
+Route.post('/projects', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    completion_date: Joi.string(),
+    status: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, projectController.create);
+
+Route.patch('/projects/:projectid', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string(),
+    description: Joi.string(),
+    completion_date: Joi.string(),
+    status: Joi.number().integer(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, projectController.patch);
+
+Route.delete('/projects/:projectid', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    projectid: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, projectController.dalete);
+
+
+//Tasks routes
+Route.get('/tasks/:projectid', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    projectid: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, taskController.view);
+
+Route.post('/tasks/:projectid', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    completion_date: Joi.string(),
+    status: Joi.number().integer().required(),
+  }),
+  [Segments.PARAMS]: Joi.object().keys({
+    projectid: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, taskController.create);
+
+Route.patch('/tasks/:taskid', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string(),
+    description: Joi.string(),
+    completion_date: Joi.string(),
+    status: Joi.number().integer(),
+  }),
+  [Segments.PARAMS]: Joi.object().keys({
+    taskid: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, taskController.patch);
+
+Route.delete('/tasks/:taskid/:projectid', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    projectid: Joi.number().integer().required(),
+    tasktid: Joi.number().integer().required(),
+  }),
+  [Segments.HEADERS]: {
+    authorization: Joi.string().required()
+  }
+}), authMiddleware, taskController.delete);
 
 
 module.exports = Route;
