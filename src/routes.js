@@ -57,7 +57,7 @@ Route.post('/projects', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, projectController.create);
 
 Route.patch('/projects/:projectid', celebrate({
@@ -69,7 +69,7 @@ Route.patch('/projects/:projectid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, projectController.patch);
 
 Route.delete('/projects/:projectid', celebrate({
@@ -78,7 +78,7 @@ Route.delete('/projects/:projectid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, projectController.dalete);
 
 
@@ -89,7 +89,7 @@ Route.get('/tasks/:projectid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, taskController.view);
 
 Route.post('/tasks/:projectid', celebrate({
@@ -104,7 +104,7 @@ Route.post('/tasks/:projectid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, taskController.create);
 
 Route.patch('/tasks/:taskid', celebrate({
@@ -119,7 +119,7 @@ Route.patch('/tasks/:taskid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, taskController.patch);
 
 Route.delete('/tasks/:taskid/:projectid', celebrate({
@@ -129,7 +129,7 @@ Route.delete('/tasks/:taskid/:projectid', celebrate({
   }),
   [Segments.HEADERS]: {
     authorization: Joi.string().required()
-  }
+  }.unknown()
 }), authMiddleware, taskController.delete);
 
 
