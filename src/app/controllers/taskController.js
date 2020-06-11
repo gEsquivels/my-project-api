@@ -31,7 +31,7 @@ module.exports = {
       status
      });
 
-     return res.status(200).json(taskCreated);
+     return res.status(201).json(taskCreated);
 
     } catch (err) {
       console.error(err);
