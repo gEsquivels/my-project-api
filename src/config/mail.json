@@ -1,8 +1,8 @@
 {
-   "host": "smtp.mailtrap.io",
-   "port": "2525",
+   "host": "smtp.gmail.com",
+   "port": "465",
    "auth": {
-      "user": "cc9b8404e25be4",
-      "pass": "18d565c297701f"
+      "user": "my.project.system@gmail.com",
+      "pass": "mpsystem4000"
    }
 }
