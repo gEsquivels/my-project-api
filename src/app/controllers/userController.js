@@ -38,7 +38,7 @@ module.exports = {
             await mailer.sendMail(createEmail.welcome(registeredUser));
 
             console.info('User registered');
-            return res.json({ registeredUser });
+            return res..status(201).json({ registeredUser });
          }
 
       } catch (err) {
