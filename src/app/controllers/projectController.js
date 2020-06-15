@@ -11,7 +11,7 @@ module.exports = {
             //include: { association: 'tasks' }
          });
 
-         return res.status(201).json(userProjects)
+         return res.status(200).json(userProjects)
 
       } catch (err) {
          console.error(err);
@@ -32,7 +32,7 @@ module.exports = {
             status
          });
 
-         return res.status(200).json(projectCreated);
+         return res.status(201).json(projectCreated);
 
       } catch (err) {
          console.error(err);
