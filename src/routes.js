@@ -125,7 +125,7 @@ Route.patch('/tasks/:taskid', celebrate({
 Route.delete('/tasks/:taskid/:projectid', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     projectid: Joi.number().integer().required(),
-    tasktid: Joi.number().integer().required(),
+    taskid: Joi.number().integer().required(),
   }),
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
