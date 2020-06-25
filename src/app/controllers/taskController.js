@@ -9,7 +9,7 @@ module.exports = {
         where: { project_id: projectid },
       });
 
-      return res.status(200).json(projectTasks)
+      return res.status(201).json(projectTasks)
 
    } catch (err) {
       console.error(err);
