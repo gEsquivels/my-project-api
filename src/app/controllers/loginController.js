@@ -10,13 +10,13 @@ module.exports = {
       const user = await User.findOne({ where: { email } });
 
       if (!user) {
-        return res.status(400).json({ menssage: 'User not exists' });
+        return res.status(400).json({ message: 'User does not exists' });
       };
 
       const verifyPassword = await bcrypt.compareSync(password, user.password);
 
       if (!verifyPassword) {
-        return res.status(400).json({ menssage: 'Invalid Password' });
+        return res.status(400).json({ message: 'Invalid Password' });
       };
 
       user.password = undefined;
@@ -25,7 +25,6 @@ module.exports = {
 
       const token = generateToken(user);
 
-      console.info('User logged');
       return res.status(200).json({ user, token });
 
     } catch (err) {

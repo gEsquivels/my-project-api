@@ -18,6 +18,23 @@ module.exports = {
          return res.status(400).json({ error: err });
       };
    },
+
+   findOne: async (req, res) => {
+      try {
+         const user_id = req.user.id;
+
+         const userProjects = await Project.findAll({
+            where: { user_id },
+            include: { association: 'tasks' }
+         });
+
+         return res.status(200).json(userProjects)
+
+      } catch (err) {
+         console.error(err);
+         return res.status(400).json({ error: err });
+      };
+   },
    
    create: async (req, res) => {
       try {
@@ -32,7 +49,7 @@ module.exports = {
             status
          });
 
-         return res.status(200).json(projectCreated);
+         return res.status(201).json(projectCreated);
 
       } catch (err) {
          console.error(err);
@@ -49,7 +66,7 @@ module.exports = {
          const project = await Project.findByPk(projectid);
 
          if(project.user_id != user.id) {
-            return res.status(401).json({ error: 'Unathorized operation' });
+            return res.status(403).json({ error: 'Unathorized operation' });
          };
 
          await Project.update({ title, description, status }, {
@@ -75,7 +92,7 @@ module.exports = {
          const project = await Project.findByPk(projectid);
    
          if(!project || project.user_id != user.id) {
-           return res.status(400).json({ error: 'Unathorized operation' });
+           return res.status(403).json({ error: 'Unathorized operation' });
          };
             
          await Project.destroy({

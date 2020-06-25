@@ -21,7 +21,7 @@ module.exports = {
     try {
       const { title, description, completion_date, status } = req.body;
       const { projectid } = req.params;
-      const user = req.user;
+      const user = req.user; // declared but never read
 
      const taskCreated = await Task.create({
       project_id: projectid,
@@ -31,7 +31,7 @@ module.exports = {
       status
      });
 
-     return res.status(200).json(taskCreated);
+     return res.status(201).json(taskCreated);
 
     } catch (err) {
       console.error(err);
@@ -65,7 +65,7 @@ module.exports = {
       const task = await Task.findByPk(taskid);
 
       if(task.project_id != projectid) {
-        return res.status(400).json({ error: 'Unathorized operation' });
+        return res.status(403).json({ error: 'Unathorized operation' });
       };
 
       await Task.destroy({

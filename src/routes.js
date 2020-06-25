@@ -48,6 +48,8 @@ Route.post('/resetpassword', celebrate({
 //Projects routes
 Route.get('/projects', authMiddleware, projectController.view);
 
+Route.get('/projects/:projectid', authMiddleware, projectController.findOne);
+
 Route.post('/projects', celebrate({
   [Segments.BODY]: Joi.object().keys({
     title: Joi.string().required(),

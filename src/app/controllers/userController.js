@@ -15,7 +15,7 @@ module.exports = {
          const verifyEmail = await User.findOne({ where: { email } });
 
          if (verifyEmail) {
-            return res.status(400).json({ menssage: 'User already exists' });
+            return res.status(409).json({ menssage: 'User already exists' });
          } else {
 
             const hashedPassword = await bcrypt.hashSync(password, 10);
@@ -37,8 +37,7 @@ module.exports = {
 
             await mailer.sendMail(createEmail.welcome(registeredUser));
 
-            console.info('User registered');
-            return res.json({ registeredUser });
+            return res.status(201).json({ registeredUser });
          }
 
       } catch (err) {
