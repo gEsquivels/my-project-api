@@ -21,10 +21,10 @@ module.exports = {
 
    findOne: async (req, res) => {
       try {
-         const user_id = req.user.id;
+         const { projectid } = req.params;
 
-         const userProjects = await Project.findAll({
-            where: { user_id },
+         const userProjects = await Project.findOne({
+            where: { id: projectid },
             include: { association: 'tasks' }
          });
 
