@@ -16,10 +16,7 @@ app.use(express.json());
 app.use(routes);
 app.use(errors());
 
-cron.schedule('30 12 * * *', () => {
-  console.log('Foi');
-  checkProjectsLate();
-}, {
+cron.schedule('30 12 * * *', checkProjectsLate(), {
   scheduled: true,
   timezone: "America/Sao_Paulo"
 });
