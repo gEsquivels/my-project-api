@@ -1,15 +1,23 @@
+const Project = require('../models/Project');
 const Task = require('../models/Task');
 
 module.exports = {
   view: async (req, res) => {
     try {
       const { projectid } = req.params;
+      const user = req.user;
 
-      const projectTasks = await Task.findAll({
+      const project = await Project.findByPk(projectid);
+
+      if(project.user_id != user.id){
+        return res.status(401).json({ error: 'Unathorized operation' });
+      };
+
+      const tasks = await Task.findAll({
         where: { project_id: projectid },
       });
 
-      return res.status(201).json(projectTasks)
+      return res.status(201).json(tasks)
 
    } catch (err) {
       console.error(err);
@@ -22,6 +30,12 @@ module.exports = {
       const { title, description, completion_date, status } = req.body;
       const { projectid } = req.params;
       const user = req.user;
+
+      const project = await Project.findByPk(projectid);
+
+      if(project.user_id != user.id){
+        return res.status(401).json({ error: 'Unathorized operation' });
+      };
 
      const taskCreated = await Task.create({
       project_id: projectid,
@@ -61,8 +75,17 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const { taskid, projectid } = req.params;
+      const user = req.user;
+
+      const project = await Project.findByPk(projectid);
+
+      if(project.user_id != user.id){
+        return res.status(401).json({ error: 'Unathorized operation' });
+      };
 
       const task = await Task.findByPk(taskid);
+
+      console.log(task);
 
       if(task.project_id != projectid) {
         return res.status(400).json({ error: 'Unathorized operation' });

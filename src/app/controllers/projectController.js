@@ -18,6 +18,25 @@ module.exports = {
          return res.status(400).json({ error: err });
       };
    },
+
+   viewById: async (req, res) => {
+      try {
+         const user_id = req.user.id;
+         const project_id = req.params.projectid;
+
+         const project = await Project.findByPk(project_id);
+
+         if(project.user_id != user_id){
+            return res.status(401).json({ error: 'Unathorized operation' });
+         }
+
+         return res.status(201).json(project)
+
+      } catch (err) {
+         console.error(err);
+         return res.status(400).json({ error: err });
+      };
+   },
    
    create: async (req, res) => {
       try {

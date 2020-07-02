@@ -21,5 +21,38 @@ module.exports = {
          template: 'auth/forgot_password',
          context: { token }
       }
+   },
+
+   projectLate: ({ project, first_name, email, days }) => {
+      let { title, id } = project;
+      return {
+         to: email,
+         from: 'My Project <myproject@system.com>',
+         subject: 'Projeto Vencido',
+         template: 'auth/project_late',
+         context: { first_name , title, id, days }
+      }
+   },
+
+   projectExpiring: ({ project, first_name, email, formatedDays }) => {
+      let { title, id } = project;
+      return {
+         to: email,
+         from: 'My Project <myproject@system.com>',
+         subject: 'Projeto Expirando',
+         template: 'auth/project_expiring',
+         context: { first_name , title, id, formatedDays }
+      }
+   },
+
+   projectExpiresToday: ({ project, first_name, email }) => {
+      let { title, id } = project;
+      return {
+         to: email,
+         from: 'My Project <myproject@system.com>',
+         subject: 'Projeto expirando hoje',
+         template: 'auth/project_expires_today',
+         context: { first_name , title, id}
+      }
    }
 }
