@@ -36,8 +36,6 @@ module.exports = {
             registeredUser.password_token_expires = undefined;
 
             await mailer.sendMail(createEmail.welcome(registeredUser));
-
-            console.info('User registered');
             return res.status(201).json({ registeredUser });
          }
 
