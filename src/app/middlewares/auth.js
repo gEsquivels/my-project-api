@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
       return res.status(401).json({ error: 'Token malformatted' });
    };
 
-   const decoed = jwt.decode(token);
+   const decoded = jwt.decode(token);
 
     req.user.id = decoded.sub;
 
