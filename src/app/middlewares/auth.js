@@ -1,11 +1,29 @@
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
+const jwt = require('jsonwebtoken');
 
 const authConfig = require('../../config/auth');
 
-module.exports = jwt({
-  secret: 'IOmaJSAWSvZGgXM8VWsED8yD6HIEiHxB',
-  algorithms: ['RS256'],
-  audience: 'https://pfc-my-project-api.herokuapp.com/',
-  issuer: 'https://dev-wvdui993.us.auth0.com/'
-});
+module.exports = (req, res, next) => {
+   const authHeader = req.headers.authorization;
+
+   if (!authHeader) {
+      return res.status(401).json({ error: 'No token provided' });
+   };
+
+   const parts = authHeader.split(" ");
+
+   if (!parts.length === 2) {
+      return res.status(401).json({ error: 'Token error' });
+   };
+
+   const [scheme, token] = parts;
+
+   if (!/^Bearer$/i.test(scheme)) {
+      return res.status(401).json({ error: 'Token malformatted' });
+   };
+
+   const decoed = jwt.decode(token);
+
+    req.user.id = decoded.sub;
+
+    return next();
+};

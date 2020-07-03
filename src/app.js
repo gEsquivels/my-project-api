@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(routes);
 app.use(errors());
-app.use(jwtCheck);
+//app.use(jwtCheck);
 
 cron.schedule('30 12 * * *', () => {
   checkProjectsLate();

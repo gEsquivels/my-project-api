@@ -47,9 +47,9 @@ Route.post('/resetpassword', celebrate({
 
 //Projects routes
 Route.get('/projects', authMiddleware, projectController.view);
-Route.get('/projects/:projectid', /*authMiddleware*/ projectController.viewById);
+Route.get('/projects/:projectid', authMiddleware, projectController.viewById);
 
-Route.get('/projects/:projectid', /*authMiddleware*/ projectController.findOne);
+Route.get('/projects/:projectid', authMiddleware, projectController.findOne);
 
 Route.post('/projects', celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -61,7 +61,7 @@ Route.post('/projects', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ projectController.create);
+}), authMiddleware, projectController.create);
 
 Route.patch('/projects/:projectid', celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -73,7 +73,7 @@ Route.patch('/projects/:projectid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ projectController.patch);
+}), authMiddleware, projectController.patch);
 
 Route.delete('/projects/:projectid', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
@@ -82,7 +82,7 @@ Route.delete('/projects/:projectid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ projectController.dalete);
+}), authMiddleware, projectController.dalete);
 
 
 //Tasks routes
@@ -93,7 +93,7 @@ Route.get('/tasks/:projectid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ taskController.view);
+}), authMiddleware, taskController.view);
 
 Route.post('/tasks/:projectid', celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -108,7 +108,7 @@ Route.post('/tasks/:projectid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ taskController.create);
+}), authMiddleware, taskController.create);
 
 Route.patch('/tasks/:taskid', celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -123,7 +123,7 @@ Route.patch('/tasks/:taskid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ taskController.patch);
+}), authMiddleware, taskController.patch);
 
 Route.delete('/tasks/:taskid/:projectid', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
@@ -133,7 +133,7 @@ Route.delete('/tasks/:taskid/:projectid', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
-}), /*authMiddleware*/ taskController.delete);
+}), authMiddleware, taskController.delete);
 
 
 module.exports = Route;
