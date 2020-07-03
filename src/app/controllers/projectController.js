@@ -5,6 +5,8 @@ module.exports = {
    view: async (req, res) => {
       try {
          const user_id = req.user.id;
+         
+         console.log(req);
 
          const userProjects = await Project.findAll({
             where: { user_id },
