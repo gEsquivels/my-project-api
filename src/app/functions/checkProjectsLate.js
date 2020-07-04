@@ -18,7 +18,7 @@ module.exports = async () => {
     const days = Math.round(duration.asDays());
     const formatedDays = Math.abs(days);
 
-    if (days > 0){
+    if (days > 0 && days < 2){
       const { email, first_name } = project.user;
 
       return await mailer.sendMail(createEmail.projectLate({ project, first_name, email, formatedDays }));
