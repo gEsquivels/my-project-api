@@ -6,7 +6,7 @@ module.exports = {
       try {
          const user_id = req.user;
          
-         console.log(req);
+         console.log(user_id);
 
          const userProjects = await Project.findAll({
             where: { user_id },
