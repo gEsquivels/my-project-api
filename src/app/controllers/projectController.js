@@ -4,7 +4,7 @@ const Task = require('../models/Task');
 module.exports = {
    view: async (req, res) => {
       try {
-         const user_id = req.user.id;
+         const user_id = req.user;
          
          console.log(req);
 

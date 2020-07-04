@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
 
    const decoded = jwt.decode(token);
 
-    req.user.id = decoded.sub;
+    req.user = decoded.sub;
 
     return next();
 };
