@@ -1,29 +1,24 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
+const authConfig = require("./auth_config.json");
 
-const authConfig = require('../../config/auth');
+if (!authConfig.domain || !authConfig.audience) {
+  throw new Error(
+    "Please make sure that auth_config.json is in place and populated"
+  );
+}
 
-module.exports = (req, res, next) => {
-   const authHeader = req.headers.authorization;
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+  }),
 
-   if (!authHeader) {
-      return res.status(401).json({ error: 'No token provided' });
-   };
+  audience: authConfig.audience,
+  issuer: `https://${authConfig.domain}/`,
+  algorithms: ["RS256"]
+});
 
-   const parts = authHeader.split(" ");
-
-   if (!parts.length === 2) {
-      return res.status(401).json({ error: 'Token error' });
-   };
-
-   const [scheme, token] = parts;
-
-   if (!/^Bearer$/i.test(scheme)) {
-      return res.status(401).json({ error: 'Token malformatted' });
-   };
-
-   const decoded = jwt.decode(token);
-
-    req.user = decoded.sub;
-
-    return next();
-};
+module.exports = checkJwt;
